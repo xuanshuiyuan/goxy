@@ -12,11 +12,12 @@ import (
 type Logs struct {
 	Info  *log.Logger
 	Error *log.Logger
+	Path  string
 }
 
-func (l *Logs) LogInit(path string) {
+func (l *Logs) LogInit() {
 	//日志输出文件
-	file, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	file, err := os.OpenFile(l.Path, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatalln("Faild to open error logger file:", err)
 	}
