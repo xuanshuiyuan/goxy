@@ -14,9 +14,8 @@ type Logs struct {
 	Error *log.Logger
 }
 
-func (l *Logs) LogInit() {
+func (l *Logs) LogInit(path string) {
 	//日志输出文件
-	var path = "target/log/logs.log"
 	file, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatalln("Faild to open error logger file:", err)
