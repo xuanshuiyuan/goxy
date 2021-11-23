@@ -30,19 +30,19 @@ var sub_msg = map[int64]string{
 }
 
 type IrisHttpResult struct {
-	Code    int64       `json:"code"`
-	Msg     string      `json:"msg"`
-	Data    interface{} `json:"data"`
-	SubCode string      `json:"sub_code"`
-	SubMsg  string      `json:"sub_msg"`
+	Code int64  `json:"code"`
+	Msg  string `json:"msg"`
+	//SubCode string      `json:"sub_code"`
+	//SubMsg  string      `json:"sub_msg"`
+	Data interface{} `json:"data"`
 }
 
 func (h *IrisHttpResult) Error(c context.Context, code int64, msg string) {
 	var resp = IrisHttpResult{
-		Code:    code,
-		Msg:     msg,
-		SubCode: sub_code[code],
-		SubMsg:  sub_msg[code],
+		Code: code,
+		Msg:  msg,
+		//SubCode: sub_code[code],
+		//SubMsg:  sub_msg[code],
 	}
 	c.JSONP(resp)
 }
