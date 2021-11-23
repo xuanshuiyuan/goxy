@@ -11,16 +11,38 @@ const (
 	StatusServerReason     = 40004 //服务器原因
 )
 
+var sub_code = map[int64]string{
+	StatusOK:               "Success",
+	StatusFail:             "Failure",
+	StatusParameterError:   "Parameter_Error",
+	StatusDataNotExist:     "DataNot_Exist",
+	StatusValidationFailed: "Validation_Failed",
+	StatusServerReason:     "Server_Reason",
+}
+
+var sub_msg = map[int64]string{
+	StatusOK:               "成功",
+	StatusFail:             "失败",
+	StatusParameterError:   "参数错误",
+	StatusDataNotExist:     "数据不存在",
+	StatusValidationFailed: "验证失败",
+	StatusServerReason:     "服务器原因",
+}
+
 type IrisHttpResult struct {
-	Code int64       `json:"code"`
-	Msg  string      `json:"msg"`
-	Data interface{} `json:"data"`
+	Code    int64       `json:"code"`
+	Msg     string      `json:"msg"`
+	Data    interface{} `json:"data"`
+	SubCode string      `json:"sub_code"`
+	SubMsg  string      `json:"sub_msg"`
 }
 
 func (h *IrisHttpResult) Error(c context.Context, code int64, msg string) {
 	var resp = IrisHttpResult{
-		Code: code,
-		Msg:  msg,
+		Code:    code,
+		Msg:     msg,
+		SubCode: sub_code[code],
+		SubMsg:  sub_msg[code],
 	}
 	c.JSONP(resp)
 }
