@@ -5,18 +5,17 @@ import (
 	"io"
 	"log"
 	"os"
-	"strings"
 	"time"
 )
 
 type Logs struct {
-	Path string
 }
 
 var F *os.File
-var ObjName string
-
-var path = "target/logs/"
+var defalut = "defalut"
+var objName *string = &defalut
+var root, _ = os.Getwd()
+var path = fmt.Sprintf("%s%s", root, "/target/logs/")
 var file = "logs.log"
 var year = time.Now().Year()
 var month = time.Now().Month()
@@ -24,7 +23,7 @@ var day = time.Now().Day()
 var lastname *string = &file
 
 func (l *Logs) checkDir() (errs error) {
-	var paths = fmt.Sprintf("%s%s/%d/%d%d/", l.Path, ObjName, year, month, day)
+	var paths = fmt.Sprintf("%s%s/%d/%d%d/", path, *objName, year, month, day)
 	_, err := os.Stat(paths) // 通过获取文件信息进行判断
 	if err != nil {
 		// 错误不为空，表示目录不存在
@@ -65,7 +64,7 @@ func (l *Logs) OpenFile(filename string) {
 	if filename == "" {
 		filename = file
 	}
-	var files = fmt.Sprintf("%s%s/%d/%d%d/%s", l.Path, ObjName, year, month, day, filename)
+	var files = fmt.Sprintf("%s%s/%d/%d%d/%s", path, *objName, year, month, day, filename)
 	if err := l.checkFile(files); err != nil {
 		log.Fatalln("Faild to CreateFile error logger file:", err)
 	}
@@ -77,29 +76,27 @@ func (l *Logs) OpenFile(filename string) {
 	F = f
 }
 
-func (l *Logs) before(filename string) {
+func (l *Logs) before(obj string, filename string) {
 	if filename == "" {
 		filename = file
 	}
-	rootPath, err := os.Getwd()
-	if err != nil {
-		ObjName = "obj"
+	if obj == "" {
+		obj = "default"
 	}
-	wd := strings.Split(string(rootPath), "/")
-	ObjName = wd[len(wd)-1]
-	//fmt.Println(F)
-	if *lastname != filename || F == nil {
+	fmt.Println(obj)
+	if *lastname != filename || *objName != obj || F == nil {
 		lastname = &filename
+		objName = &obj
 		l.OpenFile(filename)
 	}
 }
 
-func (l *Logs) Info(filename string) *log.Logger {
-	l.before(filename)
+func (l *Logs) Info(obj string, filename string) *log.Logger {
+	l.before(obj, filename)
 	return log.New(io.MultiWriter(F, os.Stderr), "INFO: ", log.Ldate|log.Ltime|log.Lshortfile)
 }
 
-func (l *Logs) Error(filename string) *log.Logger {
-	l.before(filename)
+func (l *Logs) Error(obj string, filename string) *log.Logger {
+	l.before(obj, filename)
 	return log.New(io.MultiWriter(F, os.Stderr), "ERROR: ", log.Ldate|log.Ltime|log.Lshortfile)
 }
