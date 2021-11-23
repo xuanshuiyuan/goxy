@@ -16,7 +16,7 @@ type Logs struct {
 var F *os.File
 var ObjName string
 
-var path = "../../target/logs/"
+var path = "target/logs/"
 var file = "logs.log"
 var year = time.Now().Year()
 var month = time.Now().Month()
