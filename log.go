@@ -1,7 +1,6 @@
-package goxy
+package conf
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
 	"log"
@@ -12,8 +11,9 @@ import (
 type Logs struct {
 }
 
-type Data struct {
-}
+//
+//type Data struct {
+//}
 
 var F *os.File
 var defalut = "defalut"
@@ -105,18 +105,16 @@ func (l *Logs) Error(obj string, filename string) *log.Logger {
 	return log.New(io.MultiWriter(F, os.Stderr), "ERROR: ", log.Ldate|log.Ltime|log.Lshortfile)
 }
 
-func (l *Logs) Data(obj string, filename string) *Data {
+func (l *Logs) Data(obj string, filename string) *log.Logger {
 	l.before(obj, filename)
-	//data := log.New(io.MultiWriter(F, os.Stderr), "DATA: ", log.Ldate|log.Ltime|log.Lshortfile)
-	return &Data{}
+	return log.New(io.MultiWriter(F, os.Stderr), "DATA: ", log.Ldate|log.Ltime|log.Lshortfile)
 }
 
-func (d *Data) Add(v ...interface{}) {
-	for k, val := range v {
-		vs, _ := json.Marshal(val)
-		c := fmt.Sprintf("%s", vs)
-		v[k] = c
-	}
-	add := log.New(io.MultiWriter(F, os.Stderr), "DATA: ", log.Ldate|log.Ltime|log.Lshortfile)
-	add.Println(v)
-}
+//func (d *Data) Add(v ...interface{}) *log.Logger {
+//	for k, val := range v {
+//		vs, _ := json.Marshal(val)
+//		c := fmt.Sprintf("%s", vs)
+//		v[k] = c
+//	}
+//	return log.New(io.MultiWriter(F, os.Stderr), "DATA: ", log.Ldate|log.Ltime|log.Lshortfile)
+//}
