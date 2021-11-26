@@ -1,6 +1,7 @@
 package goxy
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"log"
@@ -9,6 +10,9 @@ import (
 )
 
 type Logs struct {
+}
+
+type Data struct {
 }
 
 var F *os.File
@@ -83,7 +87,7 @@ func (l *Logs) before(obj string, filename string) {
 	if obj == "" {
 		obj = "default"
 	}
-	fmt.Println(obj)
+	//fmt.Println(obj)
 	if *lastname != filename || *objName != obj || F == nil {
 		lastname = &filename
 		objName = &obj
@@ -99,4 +103,20 @@ func (l *Logs) Info(obj string, filename string) *log.Logger {
 func (l *Logs) Error(obj string, filename string) *log.Logger {
 	l.before(obj, filename)
 	return log.New(io.MultiWriter(F, os.Stderr), "ERROR: ", log.Ldate|log.Ltime|log.Lshortfile)
+}
+
+func (l *Logs) Data(obj string, filename string) *Data {
+	l.before(obj, filename)
+	//data := log.New(io.MultiWriter(F, os.Stderr), "DATA: ", log.Ldate|log.Ltime|log.Lshortfile)
+	return &Data{}
+}
+
+func (d *Data) Add(v ...interface{}) {
+	for k, val := range v {
+		vs, _ := json.Marshal(val)
+		c := fmt.Sprintf("%s", vs)
+		v[k] = c
+	}
+	add := log.New(io.MultiWriter(F, os.Stderr), "DATA: ", log.Ldate|log.Ltime|log.Lshortfile)
+	add.Println(v)
 }
