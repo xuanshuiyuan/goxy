@@ -29,7 +29,7 @@ var day = time.Now().Format("0102")
 var lastname *string = &file
 
 func (l *Logs) checkDir() (errs error) {
-	var paths = fmt.Sprintf("%s%s/%d/%d/", path, *objName, year, day)
+	var paths = fmt.Sprintf("%s%s/%d/%s/", path, *objName, year, day)
 	_, err := os.Stat(paths) // 通过获取文件信息进行判断
 	if err != nil {
 		// 错误不为空，表示目录不存在
@@ -70,7 +70,7 @@ func (l *Logs) OpenFile(filename string) {
 	if filename == "" {
 		filename = file
 	}
-	var files = fmt.Sprintf("%s%s/%d/%d/%s", path, *objName, year, day, filename)
+	var files = fmt.Sprintf("%s%s/%d/%s/%s", path, *objName, year, day, filename)
 	if err := l.checkFile(files); err != nil {
 		log.Fatalln("Faild to CreateFile error logger file:", err)
 	}
