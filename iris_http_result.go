@@ -9,6 +9,7 @@ const (
 	StatusDataNotExist     = 40002 //数据不存在
 	StatusValidationFailed = 40003 //验证失败
 	StatusServerReason     = 40004 //服务器原因
+	StatusTokenExpired     = 40005 //token过期或者验证失败
 )
 
 var sub_code = map[int64]string{
@@ -18,6 +19,7 @@ var sub_code = map[int64]string{
 	StatusDataNotExist:     "DataNot_Exist",
 	StatusValidationFailed: "Validation_Failed",
 	StatusServerReason:     "Server_Reason",
+	StatusTokenExpired:     "Token_Expired",
 }
 
 var sub_msg = map[int64]string{
@@ -27,6 +29,7 @@ var sub_msg = map[int64]string{
 	StatusDataNotExist:     "数据不存在",
 	StatusValidationFailed: "验证失败",
 	StatusServerReason:     "服务器原因",
+	StatusTokenExpired:     "token失效",
 }
 
 type IrisHttpResult struct {
