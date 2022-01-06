@@ -16,6 +16,16 @@ import (
 	"time"
 )
 
+// @Title timeParseInLocation
+// @Description 字符串日期格式化成时间戳
+// @Author xuanshuiyuan 2022-01-06 10:25
+// @Param string 2006-01-02
+// @Return string
+func timeParseInLocation(layout string, t string) int64 {
+	t2, _ := time.ParseInLocation(layout, t, time.Local)
+	return t2.Unix()
+}
+
 // @Title TimeParse
 // @Description 检测时间字符串是否正确
 // @Author xuanshuiyuan 2022-01-06 10:25
