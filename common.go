@@ -4,17 +4,57 @@ package goxy
 import (
 	"bytes"
 	"crypto/md5"
+	crand "crypto/rand"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io"
 	"math/rand"
-	crand "crypto/rand"
 	"os"
 	"reflect"
 	"strings"
 	"time"
 )
+
+// @Title TimeParse
+// @Description 检测时间字符串是否正确
+// @Author xuanshuiyuan 2022-01-06 10:25
+// @Param string 2006-01-02
+// @Return string
+func TimeParse(layout string, t string) (err error) {
+	_, err = time.Parse(layout, t)
+	if err != nil {
+		return
+	}
+	return
+}
+
+// @Title FormatTimeString
+// @Description 格式化日期字符串
+// @Author xuanshuiyuan 2022-01-06 10:25
+// @Param string
+// @Return string
+func FormatTimeString(t string) string {
+	var ret = ""
+	timestr := strings.ReplaceAll(t, "/", "-")
+	arr := strings.Split(timestr, " ")
+	if len(arr) == 1 || len(arr) == 0 {
+		ret = strings.Join([]string{arr[0], "00:00:00"}, " ")
+	} else {
+		switch strings.Count(arr[1], ":") {
+		case 0:
+			ret = strings.Join([]string{arr[0], strings.Join([]string{arr[1], ":00:00"}, "")}, " ")
+			break
+		case 1:
+			ret = strings.Join([]string{arr[0], strings.Join([]string{arr[1], ":00"}, "")}, " ")
+			break
+		default:
+			ret = timestr
+			break
+		}
+	}
+	return ret
+}
 
 // @Title Contain
 // @Description 检测Slice,Array,Map是否包含某个值
