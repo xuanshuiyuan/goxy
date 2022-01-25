@@ -12,9 +12,46 @@ import (
 	"math/rand"
 	"os"
 	"reflect"
+	"sort"
 	"strings"
 	"time"
 )
+
+// @Title RemoveRepeatedElement
+// @Description 数组去重
+// @Author xuanshuiyuan 2022-01-24 17:18
+// @Param string
+// @Return string
+func RemoveRepeatedElement(arr []string) (newArr []string) {
+	newArr = make([]string, 0)
+	for i := 0; i < len(arr); i++ {
+		repeat := false
+		for j := i + 1; j < len(arr); j++ {
+			if arr[i] == arr[j] {
+				repeat = true
+				break
+			}
+		}
+		if !repeat {
+			newArr = append(newArr, arr[i])
+		}
+	}
+	return
+}
+
+// @Title StringsInSearch
+// @Description 查看数组是否存在某个字符串
+// @Author xuanshuiyuan 2022-01-24 17:18
+// @Param string
+// @Return string
+func StringsInSearch(target string, str_array []string) bool {
+	sort.Strings(str_array)
+	index := sort.SearchStrings(str_array, target)
+	if index < len(str_array) && str_array[index] == target {
+		return true
+	}
+	return false
+}
 
 // @Title StructAssign
 // @Description 复制结构体
