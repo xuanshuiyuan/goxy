@@ -84,6 +84,7 @@ func (l *Logs) OpenFile(filename string) {
 }
 
 func (l *Logs) before(obj string, filename string) {
+
 	if filename == "" {
 		filename = file
 	}
@@ -91,7 +92,10 @@ func (l *Logs) before(obj string, filename string) {
 		obj = "default"
 	}
 	//fmt.Println(obj)
-	if *lastname != filename || *objName != obj || F == nil {
+	if *lastname != filename || *objName != obj || F == nil || time.Now().Format("02") != day {
+		year = time.Now().Year()
+		month = time.Now().Format("01")
+		day = time.Now().Format("02")
 		lastname = &filename
 		objName = &obj
 		l.OpenFile(filename)
