@@ -7,6 +7,7 @@ import (
 	crand "crypto/rand"
 	"encoding/base64"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"math/rand"
@@ -16,6 +17,23 @@ import (
 	"strings"
 	"time"
 )
+
+// @Title StringSortCompare
+// @Description 比较数组排序后是否一样
+// @Author xuanshuiyuan 2022-03-01 14:07
+// @Param
+// @Return error
+func StringSortCompare(arr1 []string, arr2 []string) (err error) {
+	if len(arr1) == 0 || len(arr2) == 0 {
+		return errors.New("array is empty")
+	}
+	sort.Strings(arr1)
+	sort.Strings(arr2)
+	if strings.Join(arr1, ",") != strings.Join(arr2, ",") {
+		return errors.New("array unequal")
+	}
+	return
+}
 
 // @Title RemoveRepeatedElement
 // @Description 数组去重
