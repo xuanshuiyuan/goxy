@@ -123,6 +123,18 @@ func GetTimeYmdForm(strTime int64) string {
 	return datetime
 }
 
+// @Title GetTimeYmForm
+// @Description 格式化时间戳
+// @Author xuanshuiyuan 2022-02-10 14:30
+// @Param string 2006-01-02
+// @Return string
+func GetTimeYmForm(strTime int64) string {
+	//记12345,3那个位置的数这里我使用的15，也就是用24小时格式来显示，如果直接写03则是12小时am pm格式。
+	timeLayout := "2006-01"
+	datetime := time.Unix(strTime, 0).Format(timeLayout)
+	return datetime
+}
+
 // @Title TimeParse
 // @Description 检测时间字符串是否正确
 // @Author xuanshuiyuan 2022-01-06 10:25
