@@ -18,6 +18,33 @@ import (
 	"time"
 )
 
+// @Title GetJsonField
+// @Description 获取json字符串中指定字段内容  ioutil.ReadFile()读取字节切片
+// @Author xuanshuiyuan 2022-05-31 10:00
+// @Param
+// @Return
+func GetJsonField(bytes []byte, field ...string) []byte {
+	if len(field) < 1 {
+		return nil
+	}
+	//将字节切片映射到指定map上  key：string类型，value：interface{}  类型能存任何数据类型
+	var mapObj map[string]interface{}
+	json.Unmarshal(bytes, &mapObj)
+	var tmpObj interface{}
+	tmpObj = mapObj
+	for i := 0; i < len(field); i++ {
+		tmpObj = tmpObj.(map[string]interface{})[field[i]]
+		if tmpObj == nil {
+			return nil
+		}
+	}
+	result, err := json.Marshal(tmpObj)
+	if err != nil {
+		return nil
+	}
+	return result
+}
+
 // @Title StringSortCompare
 // @Description 比较数组排序后是否一样
 // @Author xuanshuiyuan 2022-03-01 14:07
