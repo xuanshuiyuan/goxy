@@ -18,6 +18,17 @@ import (
 	"time"
 )
 
+func StringToInterface(string []string) (list []interface{}) {
+	if reflect.TypeOf(string).Kind() == reflect.Slice {
+		val := reflect.ValueOf(string)
+		for i := 0; i < val.Len(); i++ {
+			ele := val.Index(i)
+			list = append(list, ele.Interface())
+		}
+	}
+	return
+}
+
 // @Title GetJsonField
 // @Description 获取json字符串中指定字段内容  ioutil.ReadFile()读取字节切片
 // @Author xuanshuiyuan 2022-05-31 10:00
