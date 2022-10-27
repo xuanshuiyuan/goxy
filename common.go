@@ -18,7 +18,7 @@ import (
 	"time"
 )
 
-func mapKeyExist(mapValue map[string]interface{}, key string) (bool, interface{}) {
+func MapKeyExist(mapValue map[string]interface{}, key string) (bool, interface{}) {
 	if value, ok := mapValue[key]; ok {
 		return true, value
 	} else {
