@@ -18,6 +18,14 @@ import (
 	"time"
 )
 
+func mapKeyExist(mapValue map[string]interface{}, key string) (bool, interface{}) {
+	if value, ok := mapValue[key]; ok {
+		return true, value
+	} else {
+		return false, nil
+	}
+}
+
 func StringToInterface(string []string) (list []interface{}) {
 	if reflect.TypeOf(string).Kind() == reflect.Slice {
 		val := reflect.ValueOf(string)
