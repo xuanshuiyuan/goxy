@@ -18,6 +18,12 @@ import (
 	"time"
 )
 
+func IoReaderToString(body io.Reader) string {
+	buf := new(bytes.Buffer)
+	buf.ReadFrom(body)
+	return buf.String()
+}
+
 func MapKeyExist(mapValue map[string]interface{}, key string) (bool, interface{}) {
 	if value, ok := mapValue[key]; ok {
 		return true, value
