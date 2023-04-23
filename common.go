@@ -14,6 +14,7 @@ import (
 	"os"
 	"reflect"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -394,4 +395,26 @@ func FmtJson(v *[]byte) string {
 	var str bytes.Buffer
 	_ = json.Indent(&str, *v, "", "    ")
 	return str.String()
+}
+
+func FmtArgsToString(args ...interface{}) []interface{} {
+	keys := make([]int, 0, len(args))
+	for key, _ := range args {
+		keys = append(keys, key)
+	}
+	sort.Ints(keys)
+	for k, _ := range keys {
+		switch reflect.TypeOf(args[k]).Kind() {
+		case reflect.Int, reflect.Int8:
+			args[k] = strconv.Itoa(args[k].(int))
+		case reflect.Int64:
+			args[k] = strconv.FormatInt(args[k].(int64), 10)
+		case reflect.Float64:
+			args[k] = strconv.FormatFloat(args[k].(float64), 'f', -1, 64)
+		case reflect.Slice, reflect.Map, reflect.Struct, reflect.Ptr:
+			str, _ := json.Marshal(args[k])
+			args[k] = str
+		}
+	}
+	return args
 }
