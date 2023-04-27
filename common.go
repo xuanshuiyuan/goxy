@@ -3,6 +3,7 @@ package goxy
 
 import (
 	"bytes"
+	"context"
 	"crypto/md5"
 	crand "crypto/rand"
 	"encoding/base64"
@@ -18,6 +19,33 @@ import (
 	"strings"
 	"time"
 )
+
+func WithTimeout(fun func() error, millisecond ...time.Duration) error {
+	var Millisecond time.Duration = 5000
+	if millisecond != nil {
+		Millisecond = millisecond[0]
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(time.Millisecond*Millisecond))
+	defer cancel()
+	ch := make(chan error, 1)
+	go func() {
+		err := fun()
+		if err != nil {
+			ch <- err
+		}
+		ch <- nil
+	}()
+	select {
+	case v, _ := <-ch:
+		return v
+	case <-ctx.Done():
+		if ctx.Err() == context.DeadlineExceeded {
+			return errors.New(SubMsg[StatusWithTimeout])
+		}
+		return ctx.Err()
+	}
+	return nil
+}
 
 func IoReaderToString(body io.Reader) string {
 	buf := new(bytes.Buffer)

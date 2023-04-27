@@ -10,9 +10,10 @@ const (
 	StatusValidationFailed = 40003 //验证失败
 	StatusServerReason     = 40004 //服务器原因
 	StatusTokenExpired     = 40005 //token过期或者验证失败
+	StatusWithTimeout      = 40008
 )
 
-var sub_code = map[int64]string{
+var SubCode = map[int64]string{
 	StatusOK:               "Success",
 	StatusFail:             "Failure",
 	StatusParameterError:   "Parameter_Error",
@@ -20,9 +21,10 @@ var sub_code = map[int64]string{
 	StatusValidationFailed: "Validation_Failed",
 	StatusServerReason:     "Server_Reason",
 	StatusTokenExpired:     "Token_Expired",
+	StatusWithTimeout:      "Connection_Timeout",
 }
 
-var sub_msg = map[int64]string{
+var SubMsg = map[int64]string{
 	StatusOK:               "成功",
 	StatusFail:             "失败",
 	StatusParameterError:   "参数错误",
@@ -30,6 +32,7 @@ var sub_msg = map[int64]string{
 	StatusValidationFailed: "验证失败",
 	StatusServerReason:     "服务器原因",
 	StatusTokenExpired:     "token失效",
+	StatusWithTimeout:      "连接超时",
 }
 
 type IrisHttpResult struct {
