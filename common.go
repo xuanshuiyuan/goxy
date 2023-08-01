@@ -7,6 +7,7 @@ import (
 	"crypto/md5"
 	crand "crypto/rand"
 	"encoding/base64"
+	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -20,6 +21,37 @@ import (
 	"time"
 )
 
+// @Title IsListDuplicated
+// @Description 查看数组是否重复元素 有则返回true
+func IsListDuplicated(list []string) bool {
+	tmpMap := make(map[string]int)
+
+	for _, value := range list {
+		tmpMap[value] = 1
+	}
+	var keys []interface{}
+	for k := range tmpMap {
+		keys = append(keys, k)
+	}
+	if len(keys) != len(list) {
+		return true
+	}
+	return false
+}
+
+func GetMD5Encode(data string) string {
+	h := md5.New()
+	h.Write([]byte(data))
+	return hex.EncodeToString(h.Sum(nil))
+}
+
+//返回一个16位md5加密后的字符串
+func Get16MD5Encode(data string) string {
+	return GetMD5Encode(data)[8:24]
+}
+
+// @Title WithTimeout
+// @Description 超时处理
 func WithTimeout(fun func() error, millisecond ...time.Duration) error {
 	var Millisecond time.Duration = 5000
 	if millisecond != nil {
@@ -53,6 +85,8 @@ func IoReaderToString(body io.Reader) string {
 	return buf.String()
 }
 
+// @Title MapKeyExist
+// @Description 查看map是否存在某个key
 func MapKeyExist(mapValue map[string]interface{}, key string) (bool, interface{}) {
 	if value, ok := mapValue[key]; ok {
 		return true, value
@@ -61,6 +95,8 @@ func MapKeyExist(mapValue map[string]interface{}, key string) (bool, interface{}
 	}
 }
 
+// @Title StringToInterface
+// @Description string转interface
 func StringToInterface(string []string) (list []interface{}) {
 	if reflect.TypeOf(string).Kind() == reflect.Slice {
 		val := reflect.ValueOf(string)
