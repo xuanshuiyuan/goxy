@@ -23,17 +23,17 @@ import (
 
 // @Title IsListDuplicated
 // @Description 查看数组是否重复元素 有则返回true
-func IsListDuplicated(list []string) bool {
+func IsListDuplicated(list *[]string) bool {
 	tmpMap := make(map[string]int)
 
-	for _, value := range list {
+	for _, value := range *list {
 		tmpMap[value] = 1
 	}
 	var keys []interface{}
 	for k := range tmpMap {
 		keys = append(keys, k)
 	}
-	if len(keys) != len(list) {
+	if len(keys) != len(*list) {
 		return true
 	}
 	return false
