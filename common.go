@@ -21,6 +21,36 @@ import (
 	"time"
 )
 
+// @Title ArrayToStruct
+// @Description 数组转结构体
+func ArrayToStruct(structPtr interface{}, result map[string]interface{}) (err error) {
+	if reflect.TypeOf(structPtr).Kind() != reflect.Ptr {
+		return errors.New("the first param is not a pointer")
+	}
+	if result == nil {
+		return errors.New("settings is nil")
+	}
+	sVal := reflect.ValueOf(structPtr).Elem()
+	for k, v := range result {
+		for i := 0; i < sVal.NumField(); i++ {
+			if k == sVal.Type().Field(i).Tag.Get("json") {
+				name := sVal.Type().Field(i).Name
+				if v == nil {
+					continue
+				}
+				switch sVal.FieldByName(name).Kind() {
+				case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+					sVal.FieldByName(name).SetInt(int64(v.(float64)))
+				default:
+					sVal.FieldByName(name).Set(reflect.ValueOf(v))
+				}
+				continue
+			}
+		}
+	}
+	return
+}
+
 // @Title IsListDuplicated
 // @Description 查看数组是否重复元素 有则返回true
 func IsListDuplicated(list *[]string) bool {
