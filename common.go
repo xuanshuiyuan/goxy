@@ -21,6 +21,58 @@ import (
 	"time"
 )
 
+func StringToInt64(value string) (int64, error) {
+	return strconv.ParseInt(string(value), 10, 64)
+}
+
+func StringToInt(value string) (int, error) {
+	return strconv.Atoi(string(value))
+}
+
+func StringToFloat64(value string) (float64, error) {
+	return strconv.ParseFloat(string(value), 64)
+}
+
+func StringToFloat32(value string) (float64, error) {
+	return strconv.ParseFloat(string(value), 32)
+}
+
+func IntToString(value int) string {
+	return strconv.Itoa(value)
+}
+
+func Int64ToString(value int64) string {
+	return strconv.FormatInt(value, 10)
+}
+
+func Float64ToString(value float64) string {
+	return strconv.FormatFloat(value, 'f', -1, 64)
+}
+
+func UnixToDateTime(strTime int64) string {
+	timeLayout := "2006-01-02 15:04:05"
+	datetime := time.Unix(strTime, 0).Format(timeLayout)
+	return datetime
+}
+
+func UnixToDateTimeM(strTime int64) string {
+	timeLayout := "2006-01-02"
+	datetime := time.Unix(strTime, 0).Format(timeLayout)
+	return datetime
+}
+
+//"2024-05-11 10:06:31"
+func DateTimeToUnix(datetime string) int64 {
+	t2, _ := time.ParseInLocation("2006-01-02 15:04:05", datetime, time.Local)
+	return t2.Unix()
+}
+
+//"2024-05-11"
+func DateTimeMToUnix(datetime string) int64 {
+	t2, _ := time.ParseInLocation("2006-01-02", datetime, time.Local)
+	return t2.Unix()
+}
+
 // @Title ArrayToStruct
 // @Description 数组转结构体
 func ArrayToStruct(structPtr interface{}, result map[string]interface{}) (err error) {
