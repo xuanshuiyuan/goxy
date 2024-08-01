@@ -21,6 +21,40 @@ import (
 	"time"
 )
 
+func FindMissingElementsString(array1, array2 []string) []string {
+	// 创建一个map来存储array2的元素
+	elementsMap := make(map[string]struct{})
+	for _, element := range array2 {
+		elementsMap[element] = struct{}{}
+	}
+
+	// 找到array1中不在array2中的元素
+	var missingElements []string
+	for _, element := range array1 {
+		if _, found := elementsMap[element]; !found {
+			missingElements = append(missingElements, element)
+		}
+	}
+	return missingElements
+}
+
+func FindMissingElementsInt(array1, array2 []int) []int {
+	// 创建一个map来存储array2的元素
+	elementsMap := make(map[int]struct{})
+	for _, element := range array2 {
+		elementsMap[element] = struct{}{}
+	}
+
+	// 找到array1中不在array2中的元素
+	var missingElements []int
+	for _, element := range array1 {
+		if _, found := elementsMap[element]; !found {
+			missingElements = append(missingElements, element)
+		}
+	}
+	return missingElements
+}
+
 func StringToInt64(value string) (int64, error) {
 	return strconv.ParseInt(string(value), 10, 64)
 }
