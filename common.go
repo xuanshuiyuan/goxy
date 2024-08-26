@@ -21,6 +21,55 @@ import (
 	"time"
 )
 
+//判断一个Go结构体是否包含某个字段并且该字段有值
+func HasFieldAndValue(s interface{}, fieldName string) bool {
+	val := reflect.ValueOf(s)
+	// 确保传入的是结构体
+	if val.Kind() == reflect.Ptr {
+		val = val.Elem()
+	}
+	if val.Kind() != reflect.Struct {
+		return false
+	}
+	// 尝试获取字段
+	fieldVal := val.FieldByName(fieldName)
+	if !fieldVal.IsValid() {
+		return false // 字段不存在
+	}
+	// 判断字段是否有值
+	switch fieldVal.Kind() {
+	case reflect.String:
+		return fieldVal.String() != ""
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+		return fieldVal.Int() != 0
+	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+		return fieldVal.Uint() != 0
+	case reflect.Float32, reflect.Float64:
+		return fieldVal.Float() != 0
+	case reflect.Bool:
+		return fieldVal.Bool() == true
+	case reflect.Ptr, reflect.Interface:
+		return !fieldVal.IsNil()
+	default:
+		return !fieldVal.IsZero()
+	}
+}
+
+////判断一个Go结构体是否包含某个字段
+func HasField(s interface{}, fieldName string) bool {
+	val := reflect.ValueOf(s)
+	// 确保传入的是结构体
+	if val.Kind() == reflect.Ptr {
+		val = val.Elem()
+	}
+	if val.Kind() != reflect.Struct {
+		return false
+	}
+	// 尝试获取字段
+	fieldVal := val.FieldByName(fieldName)
+	return fieldVal.IsValid()
+}
+
 func FindMissingElementsString(array1, array2 []string) []string {
 	// 创建一个map来存储array2的元素
 	elementsMap := make(map[string]struct{})
