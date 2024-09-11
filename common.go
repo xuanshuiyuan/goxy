@@ -21,6 +21,17 @@ import (
 	"time"
 )
 
+func OptionFormatKeyValue(args map[int8]string) (res []OptionFormatKV) {
+	for k, val := range args {
+		res = append(res, OptionFormatKV{
+			Key:   k,
+			Value: val,
+		})
+	}
+	sort.Sort(OptionSortList(res))
+	return
+}
+
 // 删除 map 中指定的字段，并返回一个新的 map
 func RemoveMapFieldMI8S(originalMap MI8S, keyToRemove int8) MI8S {
 	// 创建一个新的 map
