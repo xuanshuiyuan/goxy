@@ -22,9 +22,9 @@ import (
 )
 
 // 删除 map 中指定的字段，并返回一个新的 map
-func RemoveMapField(originalMap map[string]int, keyToRemove string) map[string]int {
+func RemoveMapFieldMI8S(originalMap MI8S, keyToRemove int8) MI8S {
 	// 创建一个新的 map
-	newMap := make(map[string]int)
+	newMap := make(MI8S)
 	// 复制原始 map 中的所有键值对，跳过要删除的键
 	for key, value := range originalMap {
 		if key != keyToRemove {
