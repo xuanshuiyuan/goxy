@@ -576,6 +576,10 @@ func RedisTokenValue() string {
 	return RandChar(20)
 }
 
+func RedisTokenValue_() string {
+	return RandChar(21)
+}
+
 // @Title RandChar
 // @Description 生成随机字符串
 // @Author xuanshuiyuan 2021-10-22 17:14:47
