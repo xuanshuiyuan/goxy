@@ -163,6 +163,12 @@ func Float64ToString(value float64) string {
 	return strconv.FormatFloat(value, 'f', -1, 64)
 }
 
+func UnixToDateTimeH(strTime int64) string {
+	timeLayout := "15:04:05"
+	datetime := time.Unix(strTime, 0).Format(timeLayout)
+	return datetime
+}
+
 func UnixToDateTime(strTime int64) string {
 	timeLayout := "2006-01-02 15:04:05"
 	datetime := time.Unix(strTime, 0).Format(timeLayout)
