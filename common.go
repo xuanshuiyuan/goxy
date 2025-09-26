@@ -21,6 +21,28 @@ import (
 	"time"
 )
 
+//字符串替换成星号
+func ReplaceStringWithStar(str string, frontDigits, lastDigits int) string {
+	if len(str) <= lastDigits {
+		return str //
+	}
+	// 计算需要替换成星号的字符数量
+	starsCount := len(str) - lastDigits - frontDigits
+	// 生成星号字符串
+	stars := strings.Repeat("*", starsCount)
+	// 使用Sprintf格式化字符串，将星号和最后几位数字组合起来
+	return fmt.Sprintf("%s%s%s", str[:frontDigits], stars, str[len(str)-lastDigits:])
+}
+
+//将一个中文字符串的第二个字符替换成星号
+func ReplaceSecondCharWithStar(s string) string {
+	runeSlice := []rune(s)  // 将字符串转换为rune切片
+	if len(runeSlice) > 1 { // 确保至少有两个字符
+		runeSlice[1] = '*' // 替换第二个字符为星号
+	}
+	return string(runeSlice) // 将rune切片转换回字符串
+}
+
 //今日凌晨时间戳
 func GetStartOfTodayUnix() int64 {
 	now := time.Now()
