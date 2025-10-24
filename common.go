@@ -653,10 +653,10 @@ func SeedRandChar(size int) string {
 func FmtLog(v ...interface{}) interface{} {
 	for k, val := range v {
 		switch reflect.TypeOf(val).Kind() {
-		case reflect.Slice:
-			vc := val.([]byte)
-			v[k] = FmtJson(&vc)
-		case reflect.Map, reflect.Struct, reflect.Ptr:
+		//case reflect.Slice:
+		//	vc := val.([]byte)
+		//	v[k] = FmtJson(&vc)
+		case reflect.Map, reflect.Struct, reflect.Ptr, reflect.Slice:
 			vs, _ := json.Marshal(val)
 			c := fmt.Sprintf("%s", vs)
 			vc := []byte(c)
