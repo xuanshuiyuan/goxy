@@ -43,6 +43,12 @@ type IrisHttpResult struct {
 	Data interface{} `json:"data"`
 }
 
+type IrisHttpResultV4 struct {
+	Result int64       `json:"result"`
+	Msg    string      `json:"msg"`
+	Data   interface{} `json:"data"`
+}
+
 func (h *IrisHttpResult) Error(c context.Context, code int64, msg string) {
 	var resp = IrisHttpResult{
 		Code: code,
@@ -58,6 +64,15 @@ func (h *IrisHttpResult) Echo(c context.Context, code int64, data interface{}) {
 		Code: code,
 		Msg:  "成功",
 		Data: data,
+	}
+	c.JSONP(resp)
+}
+
+func (h *IrisHttpResult) Return(c context.Context, code int64, msg string, data interface{}) {
+	var resp = IrisHttpResultV4{
+		Result: code,
+		Msg:    msg,
+		Data:   data,
 	}
 	c.JSONP(resp)
 }
