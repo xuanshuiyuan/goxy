@@ -68,11 +68,19 @@ func (h *IrisHttpResult) Echo(c context.Context, code int64, data interface{}) {
 	c.JSONP(resp)
 }
 
-func (h *IrisHttpResult) Return(c context.Context, code int64, msg string, data interface{}) {
+func (h *IrisHttpResultV4) Echo(c context.Context, code int64, msg string, data interface{}) {
 	var resp = IrisHttpResultV4{
 		Result: code,
 		Msg:    msg,
 		Data:   data,
+	}
+	c.JSONP(resp)
+}
+
+func (h *IrisHttpResultV4) Error(c context.Context, code int64, msg string) {
+	var resp = IrisHttpResultV4{
+		Result: code,
+		Msg:    msg,
 	}
 	c.JSONP(resp)
 }
